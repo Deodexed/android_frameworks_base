@@ -165,6 +165,7 @@ public class PhoneStatusBar extends StatusBar {
     TextView mNoNotificationsTitle;
     View mClearButton;
     View mSettingsButton;
+    View mNetworkOptionsButton;
 
     // drag bar
     CloseDragHandle mCloseView;
@@ -330,6 +331,8 @@ public class PhoneStatusBar extends StatusBar {
         mDateView = (DateView)expanded.findViewById(R.id.date);
         mSettingsButton = expanded.findViewById(R.id.settings_button);
         mSettingsButton.setOnClickListener(mSettingsButtonListener);
+        mNetworkOptionsButton = expanded.findViewById(R.id.network_options_button);
+        mNetworkOptionsButton.setOnClickListener(mNetworkOptionsButtonListener);
         mScrollView = (ScrollView)expanded.findViewById(R.id.scroll);
 
         mTicker = new MyTicker(context, sb);
@@ -2194,6 +2197,19 @@ public class PhoneStatusBar extends StatusBar {
             } catch (RemoteException e) {
             }
             v.getContext().startActivity(new Intent(Settings.ACTION_SETTINGS)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            animateCollapse();
+        }
+    };
+
+    private View.OnClickListener mNetworkOptionsButtonListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            try {
+                ActivityManagerNative.getDefault().dismissKeyguardOnNextActivity();
+            } catch (RemoteException e) {
+            }
+            v.getContext().startActivity(new Intent(Intent.ACTION_MAIN)
+                    .setClassName("com.android.phone", "com.android.phone.Settings")
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             animateCollapse();
         }

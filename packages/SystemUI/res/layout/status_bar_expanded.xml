@@ -68,6 +68,17 @@
             android:contentDescription="@string/accessibility_settings_button"
             />
 
+        <ImageView android:id="@+id/network_options_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/settings_button"
+            android:paddingLeft="4dp"
+            android:paddingRight="8dp"
+            android:src="@drawable/ic_notify_quicknetwork"
+            android:contentDescription="@string/accessibility_radio_options_button"
+            />
+
+
         <ImageView android:id="@+id/clear_all_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
