@@ -1955,6 +1955,7 @@ public final class Settings {
 
         /**
 <<<<<<< HEAD
+<<<<<<< HEAD
          * Setting to always show the menu button in navigation bar
          * @hide
          */
@@ -1989,12 +1990,17 @@ public final class Settings {
         public static final String HIDE_CLOCK = "hide_clock";
         /**
 =======
+=======
+>>>>>>> 023275e... Add option for battery percentage icons.
          * Setting for using battery percentage drawables
          * @hide
          */
         public static final String BATTERY_PERCENTAGES = "battery_percentages";
 
         /**
+<<<<<<< HEAD
+>>>>>>> 023275e... Add option for battery percentage icons.
+=======
 >>>>>>> 023275e... Add option for battery percentage icons.
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
