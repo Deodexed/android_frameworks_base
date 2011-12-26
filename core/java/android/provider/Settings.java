@@ -1890,6 +1890,12 @@ public final class Settings {
         public static final String BATTERY_PERCENTAGES = "battery_percentages";
 
         /**
+         * Setting to always show the menu button in navigation bar
+         * @hide
+         */
+        public static final String PERSIST_MENU = "persist_menu";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
