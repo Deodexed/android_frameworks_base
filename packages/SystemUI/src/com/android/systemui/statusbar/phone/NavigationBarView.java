@@ -56,10 +56,12 @@ public class NavigationBarView extends LinearLayout {
     final static boolean ANIMATE_HIDE_TRANSITION = false; // turned off because it introduces unsightly delay when videos goes to full screen
 
     private boolean mPersistMenu;
+    private boolean mShowSearchButton;
     private Handler mHandler;
 
     protected IStatusBarService mBarService;
     final Display mDisplay;
+    private PhoneStatusBar mPhoneStatusBar;
     View mCurrentView = null;
     View[] mRotatedViews = new View[4];
 
@@ -68,6 +70,10 @@ public class NavigationBarView extends LinearLayout {
 
     boolean mHidden, mLowProfile, mShowMenu;
     int mDisabledFlags = 0;
+
+    public View getSearchButton() {
+        return mCurrentView.findViewById(R.id.search);
+    }
 
     public View getRecentsButton() {
         return mCurrentView.findViewById(R.id.recent_apps);
@@ -96,6 +102,8 @@ public class NavigationBarView extends LinearLayout {
                 ServiceManager.getService(Context.STATUS_BAR_SERVICE));
         mPersistMenu = (Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.PERSIST_MENU, 0) == 1);
+        mShowSearchButton = (Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.SHOW_SEARCH_BUTTON, 0) == 1);
 
         mHandler = new Handler();
         SettingsObserver settingsObserver = new SettingsObserver(mHandler);
@@ -114,6 +122,7 @@ public class NavigationBarView extends LinearLayout {
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(Settings.System.PERSIST_MENU), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(Settings.System.SHOW_SEARCH_BUTTON), false, this);
         }
 
         @Override
@@ -156,6 +165,9 @@ public class NavigationBarView extends LinearLayout {
         getBackButton()   .setVisibility(disableBack       ? View.INVISIBLE : View.VISIBLE);
         getHomeButton()   .setVisibility(disableHome       ? View.INVISIBLE : View.VISIBLE);
         getRecentsButton().setVisibility(disableRecent     ? View.INVISIBLE : View.VISIBLE);
+        /* Assume that if home is disabled we would
+           want search and menu disabled as well */
+        getSearchButton().setVisibility(disableHome         ? View.INVISIBLE : View.VISIBLE);
     }
 
     public void setMenuVisibility(final boolean show) {
@@ -171,6 +183,14 @@ public class NavigationBarView extends LinearLayout {
             mShowMenu = show;
 
             getMenuButton().setVisibility(mShowMenu ? View.VISIBLE : View.INVISIBLE);
+        }
+    }
+
+    public void setSearchVisibility() {
+        if (mShowSearchButton) {
+            getSearchButton().setVisibility(View.VISIBLE);
+        } else {
+            getSearchButton().setVisibility(View.INVISIBLE);
         }
     }
 
@@ -265,6 +285,7 @@ public class NavigationBarView extends LinearLayout {
         setLowProfile(mLowProfile, false, true /* force */);
         setDisabledFlags(mDisabledFlags, true /* force */);
         setMenuVisibility(mShowMenu, true /* force */);
+        setSearchVisibility();
 
         if (DEBUG_DEADZONE) {
             mCurrentView.findViewById(R.id.deadzone).setBackgroundColor(0x808080FF);
@@ -330,6 +351,7 @@ public class NavigationBarView extends LinearLayout {
         final View home = getHomeButton();
         final View recent = getRecentsButton();
         final View menu = getMenuButton();
+        final View search = getSearchButton();
 
         pw.println("      back: "
                 + PhoneStatusBar.viewInfo(back)
@@ -347,16 +369,22 @@ public class NavigationBarView extends LinearLayout {
                 + PhoneStatusBar.viewInfo(menu)
                 + " " + visibilityToString(menu.getVisibility())
                 );
+        pw.println("      search: "
+                + PhoneStatusBar.viewInfo(search)
+                + " " + visibilityToString(search.getVisibility())
+                );
         pw.println("    }");
     }
 
     private void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
         mPersistMenu = (Settings.System.getInt(resolver, Settings.System.PERSIST_MENU, 0) == 1);
+        mShowSearchButton = (Settings.System.getInt(resolver, Settings.System.SHOW_SEARCH_BUTTON, 0) == 1);
         if (mPersistMenu) {
             getMenuButton().setVisibility(View.VISIBLE);
         } else {
             getMenuButton().setVisibility(View.INVISIBLE);
         }
+        setSearchVisibility();
     }
 }

@@ -303,6 +303,7 @@ public class PhoneStatusBar extends StatusBar {
                     (NavigationBarView) View.inflate(context, R.layout.navigation_bar, null);
 
                 mNavigationBarView.setDisabledFlags(mDisabled);
+                mNavigationBarView.setSearchVisibility();
             }
         } catch (RemoteException ex) {
             // no window manager? good luck with that
