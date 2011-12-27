@@ -61,7 +61,6 @@ public class NavigationBarView extends LinearLayout {
 
     protected IStatusBarService mBarService;
     final Display mDisplay;
-    private PhoneStatusBar mPhoneStatusBar;
     View mCurrentView = null;
     View[] mRotatedViews = new View[4];
 
