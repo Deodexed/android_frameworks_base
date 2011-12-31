@@ -164,9 +164,7 @@ public class NavigationBarView extends LinearLayout {
         getBackButton()   .setVisibility(disableBack       ? View.INVISIBLE : View.VISIBLE);
         getHomeButton()   .setVisibility(disableHome       ? View.INVISIBLE : View.VISIBLE);
         getRecentsButton().setVisibility(disableRecent     ? View.INVISIBLE : View.VISIBLE);
-        /* Assume that if home is disabled we would
-           want search and menu disabled as well */
-        getSearchButton().setVisibility(disableHome         ? View.INVISIBLE : View.VISIBLE);
+        getSearchButton() .setVisibility(!mShowSearchButton ? View.INVISIBLE : View.VISIBLE);
     }
 
     public void setMenuVisibility(final boolean show) {
