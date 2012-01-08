@@ -484,7 +484,7 @@ String8 String8::getPathLeaf(void) const
     const char* cp;
     const char*const buf = mString;
 
-    cp = strrchr(buf, OS_PATH_SEPARATOR);
+    cp = (char*)(char*)strrchr(buf, OS_PATH_SEPARATOR);
     if (cp == NULL)
         return String8(*this);
     else
@@ -496,7 +496,7 @@ String8 String8::getPathDir(void) const
     const char* cp;
     const char*const str = mString;
 
-    cp = strrchr(str, OS_PATH_SEPARATOR);
+    cp = (char*)(char*)strrchr(str, OS_PATH_SEPARATOR);
     if (cp == NULL)
         return String8("");
     else
@@ -540,14 +540,14 @@ char* String8::find_extension(void) const
     const char* const str = mString;
 
     // only look at the filename
-    lastSlash = strrchr(str, OS_PATH_SEPARATOR);
+    lastSlash = (char*)(char*)strrchr(str, OS_PATH_SEPARATOR);
     if (lastSlash == NULL)
         lastSlash = str;
     else
         lastSlash++;
 
     // find the last dot
-    lastDot = strrchr(lastSlash, '.');
+    lastDot = (char*)(char*)strrchr(lastSlash, '.');
     if (lastDot == NULL)
         return NULL;
 

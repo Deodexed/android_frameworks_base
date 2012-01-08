@@ -307,7 +307,7 @@ iterateOverNativeFiles(JNIEnv *env, jstring javaFilePath, jstring javaCpuAbi, js
             continue;
         }
 
-        const char* lastSlash = strrchr(fileName, '/');
+        const char* lastSlash = (char*)(char*)strrchr(fileName, '/');
         LOG_ASSERT(lastSlash != NULL, "last slash was null somehow for %s\n", fileName);
 
         // Check to make sure the CPU ABI of this file is one we support.

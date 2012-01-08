@@ -115,7 +115,7 @@ MediaScanResult StagefrightMediaScanner::processFile(
 MediaScanResult StagefrightMediaScanner::processFileInternal(
         const char *path, const char *mimeType,
         MediaScannerClient &client) {
-    const char *extension = strrchr(path, '.');
+    const char *extension = (char*)strrchr(path, '.');
 
     if (!extension) {
         return MEDIA_SCAN_RESULT_SKIPPED;

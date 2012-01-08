@@ -87,7 +87,7 @@ static bool isHidden(const char *root, const char *path)
     } else if (path[strlen(path)-1] == '~') {
         // Skip suspected emacs backup files.
         type = "backup";
-    } else if ((ext = strrchr(path, '.')) != NULL && strcmp(ext, ".scc") == 0) {
+    } else if ((ext = (char*)strrchr(path, '.')) != NULL && strcmp(ext, ".scc") == 0) {
         // Skip VisualSourceSafe files and don't chatter about it
         return true;
     } else {

@@ -145,7 +145,7 @@ jobject videoEditProp_getProperties(
     if (gotten)
     {
         // Retrieve the extension.
-        pExtension = (M4OSA_Char *)strrchr((const char *)pFile, (int)'.');
+        pExtension = (M4OSA_Char *)(char*)strrchr((const char *)pFile, (int)'.');
         if (M4OSA_NULL != pExtension)
         {
             // Skip the dot.
