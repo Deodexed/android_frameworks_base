@@ -1987,6 +1987,7 @@ public final class Settings {
          * Setting to hide clock.
          * @hide
          */
+         
         public static final String HIDE_CLOCK = "hide_clock";
 
         public static final String[] SETTINGS_TO_BACKUP = {
