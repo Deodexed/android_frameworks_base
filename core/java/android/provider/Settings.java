@@ -1988,29 +1988,7 @@ public final class Settings {
          * @hide
          */
         public static final String HIDE_CLOCK = "hide_clock";
-        /**
-=======
-=======
->>>>>>> 023275e... Add option for battery percentage icons.
-         * Setting for using battery percentage drawables
-         * @hide
-         */
-        public static final String BATTERY_PERCENTAGES = "battery_percentages";
 
-        /**
-<<<<<<< HEAD
->>>>>>> 023275e... Add option for battery percentage icons.
-=======
->>>>>>> 023275e... Add option for battery percentage icons.
-         * Settings to backup. This is here so that it's in the same place as the settings
-         * keys and easy to update.
-         *
-         * NOTE: Settings are backed up and restored in the order they appear
-         *       in this array. If you have one setting depending on another,
-         *       make sure that they are ordered appropriately.
-         *
-         * @hide
-         */
         public static final String[] SETTINGS_TO_BACKUP = {
             STAY_ON_WHILE_PLUGGED_IN,
             WIFI_USE_STATIC_IP,
