@@ -135,9 +135,9 @@ import android.view.KeyCharacterMap.FallbackAction;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 import android.media.IAudioService;
 import android.media.AudioManager;
-
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileReader;
@@ -666,7 +666,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     Runnable mBackLongPress = new Runnable() {
         public void run() {
             try {
-                IActivityManager mgr = ActivityManagerNative.getDefault();
+		performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);                
+		IActivityManager mgr = ActivityManagerNative.getDefault();
                 List<RunningAppProcessInfo> apps = mgr.getRunningAppProcesses();
                 for (RunningAppProcessInfo appInfo : apps) {
                     int uid = appInfo.uid;
@@ -674,8 +675,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     // root, phone, etc.)
                     if (uid >= Process.FIRST_APPLICATION_UID && uid <= Process.LAST_APPLICATION_UID
                             && appInfo.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+			Toast.makeText(mContext, R.string.app_killed_message, Toast.LENGTH_SHORT).show();
                         // Kill the entire pid
-                        Process.killProcess(appInfo.pid);
+                        if (appInfo.pkgList!=null && (apps.size() > 0)){
+                            mgr.forceStopPackage(appInfo.pkgList[0]);
+                        }else{
+                            Process.killProcess(appInfo.pid);
+                        }
                         break;
                     }
                 }
@@ -1661,7 +1667,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if (Settings.Secure.getInt(mContext.getContentResolver(),
                     Settings.Secure.KILL_APP_LONGPRESS_BACK, 0) == 1) {
                 if (down && repeatCount == 0) {
-                    mHandler.postDelayed(mBackLongPress, 2000);
+                    mHandler.postDelayed(mBackLongPress, ViewConfiguration.getGlobalActionKeyTimeout());
                 }
             }
         }
